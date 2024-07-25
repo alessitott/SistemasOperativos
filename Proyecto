@@ -1,0 +1,55 @@
+MANUAL CHAT GRUPAL
+-Para encontrar el chat, primero abrimos en una terminal de Linux o MacOS, ingresamos el siguiente comando: ssh bandit1@bandit.labs.overthewire.org -p2220.
+-Al ingresar, te pedirá la contraseña del usuario que se encuentra en un archivo "readme" del usuario "bandit0".
+-Al haber ingresado, escribimos el  siguiente comando: cd /tmp/chatprueba1 .
+-Y por ultimo, para ejecutar "login.sh", escribimos el siguiente comando: ./login.sh . (Seguir instrucciones del programa)  
+-Por "seguridad", el usuario propietario "bandit0" es el unico que tiene derechos de escritura sobre el archivo "login.sh", mientras que cualquier otro usuario, 
+como por ejemplo "bandit1", solo tiene permisos de ejecución.
+
+-El script contiene:
+   -Login
+   -Contraseña encriptada en Hash
+   -Validación de datos
+------------------------------------------------------------------------
+
+#!/bin/bash
+
+echo "Ingreso a chat grupal"
+
+# Definir el usuario y contraseña correctos
+USUARIO_CORRECTO="Alessito"
+CONTRASENA_CORRECTA_HASH="3a14e70526c7392c1a618e4260d83e9dd339ace10b0e743622b99>
+
+
+# Pedir al usuario que ingrese su usuario y contraseña
+read -p "Ingrese su usuario: " usuario
+read -sp "Ingrese su contraseña: " contrasena
+echo
+contrasena_hash=$(echo -n "$contrasena" | openssl dgst -sha256 | awk '{print $2>
+# Verificar si el usuario y contraseña son correctos
+if [ "$usuario" == "$USUARIO_CORRECTO" ] && [ "$contrasena_hash" == "$CONTRASEN>
+  # Si es correcto, cambiar al directorio /tmp/chatprueba1/chat_grupal
+  cd /tmp/chatprueba1/.chat_grupal
+  # el directorio se abre en memoria
+  # Pregunta si tiene archivo creado o no
+  read -p "¿Ya tienes un archivo en este directorio? (s/n): " tiene_archivo
+  
+  if [ "$tiene_archivo" == "s" ]; then
+    # Si el usuario ya tiene un archivo, continuar
+    echo "Para abrir la carpeta, ingrese el sigueinte comando: cd .chat_grupal"
+    echo "Continuando..."
+  else
+    # Si el usuario no tiene un archivo, crear un archivo txt
+    read -p "Introduce el nombre del archivo a crear: " nombre_archivo
+    touch "$nombre_archivo.txt"
+    echo "Archivo $nombre_archivo.txt creado."
+    echo "Para abrir la carpeta, ingrese el siguiente comando: cd.chat_grupal"
+  fi
+  
+  # Listar los archivos en el directorio actual
+
+else
+  # Si no es correcto, mostrar un mensaje de error
+  echo "Usuario o contraseña incorrectos"
+fi
+
